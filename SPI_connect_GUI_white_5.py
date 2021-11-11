@@ -50,6 +50,7 @@ class SPI_GUI(QtWidgets.QMainWindow, Ui_MainWindow):
         self.from_time1.returnPressed.connect(lambda: self.plot_button(self.Big_graphicsView, from_t=self.from_time1.text(), to_t=self.to_time1.text(), channel=self.selected_item))
         self.to_time1.returnPressed.connect(lambda: self.plot_button(self.Big_graphicsView, from_t=self.from_time1.text(), to_t=self.to_time1.text(), channel=self.selected_item))
         self.filtered_button.clicked.connect(lambda: self.filtered_list())
+        self.allchannels_button.clicked.connect(lambda: self.show_all_list())
         
         self.plot_multi_button.clicked.connect(lambda: self.multi_plot_button(self.Big_graphicsView, from_t=self.from_time2.text(), to_t=self.to_time2.text(), multi_channels=self.x))
         self.from_time2.returnPressed.connect(lambda: self.multi_plot_button(self.Big_graphicsView, from_t=self.from_time2.text(), to_t=self.to_time2.text(), multi_channels=self.x))
@@ -225,6 +226,19 @@ class SPI_GUI(QtWidgets.QMainWindow, Ui_MainWindow):
         self.Parameter_listView_2.itemClicked.connect(self.listitemsclicked)
         
                 
+    def show_all_list(self):
+        self.Parameter_listView.clear()
+        self.Parameter_listView_2.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
+        self.Parameter_listView.setAlternatingRowColors(False)
+        self.Parameter_listView_2.clear()
+        self.Parameter_listView_2.setAlternatingRowColors(False)
+        channels = self.spi_tdms.channels
+        for i in channels:
+            self.Parameter_listView.addItem(str(i))
+            self.Parameter_listView_2.addItem(str(i))
+        self.Parameter_listView.itemClicked.connect(self.listitemclicked)
+        self.Parameter_listView_2.itemClicked.connect(self.listitemsclicked)
+        
                 
                 
 

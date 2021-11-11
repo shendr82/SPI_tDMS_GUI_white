@@ -119,16 +119,7 @@ class SPI_tDMS_Data(object):
         canvas.fig.clf()
         axes = canvas.fig.add_subplot(111)
         axes.plot(x_data[0], y_data[0])
-#        axes.set_facecolor('None')
-#        axes.set_ylabel(channel + ' ' + '[' + y_data[1] + ']')    
-#        axes.set_xlabel('Time' +' [s]')
-#        axes.spines['bottom'].set_color('white')
-#        axes.spines['top'].set_color('white') 
-#        axes.spines['right'].set_color('white')
-#        axes.spines['left'].set_color('white')
-#        axes.xaxis.label.set_color('white')
-#        axes.yaxis.label.set_color('white')
-#        axes.tick_params(colors='white', which='both')           
+        
         canvas.draw()
         
         
@@ -176,37 +167,15 @@ class SPI_tDMS_Data(object):
                 
                 if ncol==1:  
                     axes[r].plot(x_data[0], dict1[channels_data[count]][0])
-#                    axes[r].set_facecolor('None')
-#                    axes[r].spines['bottom'].set_color('white')
-#                    axes[r].spines['top'].set_color('white') 
-#                    axes[r].spines['right'].set_color('white')
-#                    axes[r].spines['left'].set_color('white')
-#                    axes[r].xaxis.label.set_color('white')
-#                    axes[r].yaxis.label.set_color('white')
-#                    axes[r].tick_params(colors='white', which='both')
                     axes[r].set_xlabel('Time [s]')
                     axes[r].set_ylabel(channels_data[count] + " [" + dict1[channels_data[count]][1] + "]")
                     count+=1
                 else:
                     for c in range(ncol):
                         if channels_no==5 and [r,c]==[2,1]:
-                            axes[r,c].plot(0,0)
-#                            axes[r,c].set_facecolor('None')
-#                            axes[r,c].spines['bottom'].set_color('white')
-#                            axes[r,c].spines['top'].set_color('white') 
-#                            axes[r,c].spines['right'].set_color('white')
-#                            axes[r,c].spines['left'].set_color('white')
-#                            axes[r,c].tick_params(colors='white', which='both')                            
+                            axes[r,c].plot(0,0)                         
                         else:                      
                             axes[r,c].plot(x_data[0], dict1[channels_data[count]][0])
-#                            axes[r,c].set_facecolor('None')
-#                            axes[r,c].spines['bottom'].set_color('white')
-#                            axes[r,c].spines['top'].set_color('white') 
-#                            axes[r,c].spines['right'].set_color('white')
-#                            axes[r,c].spines['left'].set_color('white')
-#                            axes[r,c].xaxis.label.set_color('white')
-#                            axes[r,c].yaxis.label.set_color('white')
-#                            axes[r,c].tick_params(colors='white', which='both')
                             axes[r,c].set_xlabel('Time [s]')
                             axes[r,c].set_ylabel(channels_data[count] + " [" + dict1[channels_data[count]][1] + "]")
                             count+=1
@@ -230,21 +199,23 @@ class SPI_tDMS_Data(object):
                 channels_no+=1
         
         canvas.fig.clf()
-        axes = canvas.fig.subplots(1,1)   
+        axes = canvas.fig.subplots(1,1)  
+        
+        part1 = axes.twinx()
         
         for i in range(channels_no):
-            axes.plot(x_data[0], dict1[channels_data[i]][0], label=channels_data[i])
-            axes.set_xlabel('TimeStamp [s]')
-#            axes.set_facecolor('None')
-#            axes.spines['bottom'].set_color('white')
-#            axes.spines['top'].set_color('white') 
-#            axes.spines['right'].set_color('white')
-#            axes.spines['left'].set_color('white')
-#            axes.tick_params(colors='white', which='both')           
-            legend = axes.legend()
-#            legend.get_frame().set_facecolor('None')
-#            for text in legend.get_texts():
-#                text.set_color("white")
+            if dict1[channels_data[0]][1] == dict1[channels_data[i]][1]:
+                axes.plot(x_data[0], dict1[channels_data[i]][0], label=channels_data[i])
+                axes.set_ylabel(channels_data[i] + " [" + dict1[channels_data[i]][1] + "]")          
+                legend = axes.legend(loc='upper left')
+
+            else:
+                part1.plot(x_data[0], dict1[channels_data[i]][0], label=channels_data[i])
+                part1.set_ylabel(channels_data[i] + " [" + dict1[channels_data[i]][1] + "]")        
+                legend = part1.legend(loc='upper right')
+
+            axes.set_xlabel('TimeStamp [s]')   
+        
 
         canvas.draw()
         
@@ -280,20 +251,11 @@ class SPI_tDMS_Data(object):
         canvas.fig.clf()
         axes = canvas.fig.subplots(1,1)
                 
-#        fig, axes = plt.subplots(1,1) 
         for i in range(channels_no):
             axes.plot(x_data[0], dict1[channels_data[i]], label='diff. ' + channels_data[i])
-            axes.set_xlabel('TimeStamp [s]')    
-#            axes.set_facecolor('None')
-#            axes.spines['bottom'].set_color('white')
-#            axes.spines['top'].set_color('white') 
-#            axes.spines['right'].set_color('white')
-#            axes.spines['left'].set_color('white')
-#            axes.tick_params(colors='white', which='both')           
+            axes.set_xlabel('TimeStamp [s]')           
             legend = axes.legend()
-#            legend.get_frame().set_facecolor('None')
-#            for text in legend.get_texts():
-#                text.set_color("white")
+
         canvas.draw()
        
 
